@@ -1,252 +1,126 @@
-import React from 'react';
-// import Accordion from '@material-ui/core/Accordion';
-// import AccordionSummary from '@material-ui/core/AccordionSummary';
-// import AccordionDetails from '@material-ui/core/AccordionDetails';
-// import Checkbox from '@material-ui/core/Checkbox';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Typography from '@material-ui/core/Typography';
-// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import { Grid } from '@material-ui/core';
-// import { makeStyles } from '@material-ui/core/styles';
-
-// const useStyles = makeStyles((theme) => ({
-//     root: {
-//       width: '100%',
-//     },
-//     heading: {
-//       fontSize: theme.typography.pxToRem(15),
-//       flexBasis: '33.33%',
-//       flexShrink: 0,
-//     },
-//     secondaryHeading: {
-//       fontSize: theme.typography.pxToRem(15),
-//       color: theme.palette.text.secondary,
-//       display: 'flex',
-//       alignItems: 'center'
-//     },
-//   }));
+import React, {useState} from 'react';
+// import axios from 'axios';
+import { Grid } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import Anio from './Anio';
 
 export default function Home() {
-    // const classes = useStyles();
-    // const [materiasAprobadas, setMateriasAprobadas]= useState([]);
-    // const [matematicaAprobada, setMatematicaAprobada] = useState(false);
-    // const [epylAprobada, setEpylAprobada] = useState(false);
+    let data = {
+        "Universidad": "Universidad Nacional de Quilmes",
+        "Carrera": "Tecnicatura universitaria en programación informática",
+        "Materias": {
+            "Primer año": [
+                {
+                    "Nombre": "Lectura y escritura académica",
+                    "Prerrequisitos": [],
+                    "Resumen": "Definicion de enciclopedia. Reformulación (léxica y sintáctica).Consistencia en referencia, género, número y tiempos verbales. Nominalización. Notas periodísticas sobre temas disciplinares. Puntuación y subordinación. Unidades escritas: sección, párrafo, oración. Planteo de objetivos, preguntas, hipótesis y estructura."
+                },
+                {
+                    "Nombre": "Matemática",
+                    "Prerrequisitos": [],
+                    "Resumen": "Algún resumen de matemática"
+                },
+                {
+                    "Nombre": "Elementos de programación y lógica",
+                    "Prerrequisitos": [],
+                    "Resumen": "Algún resumen de elementos de programación y lógica"
+                },
+                {
+                    "Nombre": "Matemática 1",
+                    "Prerrequisitos": ["Matemática", "Elementos de programación y lógica"],
+                    "Resumen": "Algún resumen de matemática 1"
+                },
+                {
+                    "Nombre": "Introducción a la programación",
+                    "Prerrequisitos": ["Elementos de programación y lógica"],
+                    "Resumen": "Algún resumen de introducción a la programación"
+                },
+                {
+                    "Nombre": "Organización de las computadoras",
+                    "Prerrequisitos": ["Elementos de programación y lógica"],
+                    "Resumen": "Algún resumen de organización de las computadoras"
+                }
+            ],
+            "Segundo año": [
+                {
+                    "Nombre": "Bases de datos",
+                    "Prerrequisitos": [],
+                    "Resumen": "Algún resumen de bases de datos"
+                },
+                {
+                    "Nombre": "Programación con objetos 1",
+                    "Prerrequisitos": ["Introducción a la programación"],
+                    "Resumen": "Algún resumen de Programación con objetos 1"
+                },
+                {
+                    "Nombre": "Estructuras de datos",
+                    "Prerrequisitos": ["Introducción a la programación"],
+                    "Resumen": "Algún resumen de estructuras de datos"
+                },
+                {
+                    "Nombre": "Matemática 2",
+                    "Prerrequisitos": ["Matemática 1"],
+                    "Resumen": "Algún resumen de matemática 2"
+                },
+                {
+                    "Nombre": "Programación con objetos 2",
+                    "Prerrequisitos": ["Programación con objetos 1"],
+                    "Resumen": "Algún resumen de Programación con objetos 2"
+                },
+                {
+                    "Nombre": "Redes de computadoras",
+                    "Prerrequisitos": ["Organización de las computadoras"],
+                    "Resumen": "Algún resumen de Redes de computadoras"
+                },
+                {
+                    "Nombre": "Sistemas operativos",
+                    "Prerrequisitos": ["Organización de las computadoras", "Introducción a la programación"],
+                    "Resumen": "Algún resumen de Sistemas operativos"
+                }
+            ]
+        }
+    }
 
-    // function agregarMateria(materia) {
-    //     materia === "Matematica" ? setMatematicaAprobada(true) : setEpylAprobada(true);
+    const [nombreUniversidad, setNombreUniversidad] = useState(data.Universidad);
+    const [nombreCarrera, setNombreCarrera] = useState(data.Carrera);
+    const [materias, setMaterias] = useState(data.Materias);
+
+    // function getData() {
+    //     axios.get('https://materiasunq.free.beeceptor.com/tpi')
+    //         .then((response) => {
+    //             setNombreUniversidad(response.data.Universidad);
+    //             setNombreCarrera(response.data.Carrera);
+    //             setMaterias(response.data.Materias);
+    //         })
     // }
 
-    // function quitarMateria(materia) {
-    //     materia === "Matematica" ? setMatematicaAprobada(false) : setEpylAprobada(false);
-    // }
-
-    // function handleCheckboxChange(event, materia) {
-    //     event.stopPropagation();
-    //     if (event.target.checked) {
-    //         agregarMateria(materia);
-    //     } else {
-    //         quitarMateria(materia);
-    //     }
-    // }
+    // useEffect(() => {
+    //     getData();
+    // }, [])
 
     function renderMaterias() {
-
+        return Object.entries(materias).map((anio) => (
+            Anio(anio[0], anio[1])
+        ));
     }
 
     return (
         <div>
-            {renderMaterias()}
-            {/* <Grid container direction="row" justify="center">
+            <Grid container direction="row" justify="center">
                 <Grid container direction="row" xs={8} justify="flex-start">
                     <Typography variant="h5">
-                        Primer Cuatrimestre
+                        Establecimiento: {nombreUniversidad}
                     </Typography>
-                </Grid>
-                <Grid container direction="column" xs={8}>
-                    <Grid item direction="row">
-                        <Accordion>
-                            <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-label="Expand"
-                            aria-controls="additional-actions1-content"
-                            id="additional-actions1-header"
-                            >
-                                <FormControlLabel
-                                    aria-label="Acknowledge"
-                                    onClick={(event) => event.stopPropagation()}
-                                    onFocus={(event) => event.stopPropagation()}
-                                    control={<Checkbox />}
-                                    label="Lectura y escritura académica"
-                                />
-                                <Typography className={classes.secondaryHeading}>
-                                    Prerrequisitos: Ninguno
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Typography color="textSecondary">
-                                    Definicion de enciclopedia. Reformulación (léxica y sintáctica).
-                                    Consistencia en referencia, género, número y tiempos verbales.
-                                    Nominalización. Notas periodísticas sobre temas disciplinares.
-                                    Puntuación y subordinación. Unidades escritas: sección, párrafo,
-                                    oración. Planteo de objetivos, preguntas, hipótesis y estructura.
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
-                    </Grid>
-                    <Grid item direction="row">
-                        <Accordion>
-                            <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-label="Expand"
-                            aria-controls="additional-actions1-content"
-                            id="additional-actions1-header"
-                            >
-                                <FormControlLabel
-                                    aria-label="Acknowledge"
-                                    onClick={(event) => handleCheckboxChange(event, "Matematica")}
-                                    onFocus={(event) => event.stopPropagation()}
-                                    control={<Checkbox />}
-                                    label="Matematica"
-                                />
-                                <Typography className={classes.secondaryHeading}>
-                                    Prerrequisitos: Ninguno
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Typography color="textSecondary">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-                                    Nemo aliquid porro blanditiis sit nam eaque iste maxime 
-                                    voluptas explicabo modi quidem debitis voluptatibus ea quia 
-                                    veritatis, impedit expedita totam. Omnis?
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
-                    </Grid>
-                    <Grid item direction="row">
-                        <Accordion>
-                            <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-label="Expand"
-                            aria-controls="additional-actions1-content"
-                            id="additional-actions1-header"
-                            >
-                                <FormControlLabel
-                                    aria-label="Acknowledge"
-                                    onClick={(event) => handleCheckboxChange(event, "Elementos de programacion y logica")}
-                                    onFocus={(event) => event.stopPropagation()}
-                                    control={<Checkbox />}
-                                    label="Elementos de programacion y logica"
-                                />
-                                <Typography className={classes.secondaryHeading}>
-                                    Prerrequisitos: Ninguno
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Typography color="textSecondary">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-                                    Nemo aliquid porro blanditiis sit nam eaque iste maxime 
-                                    voluptas explicabo modi quidem debitis voluptatibus ea quia 
-                                    veritatis, impedit expedita totam. Omnis?
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
-                    </Grid>
                 </Grid>
                 <Grid container direction="row" xs={8} justify="flex-start">
                     <Typography variant="h5">
-                        Segundo Cuatrimestre
+                        Carrera: {nombreCarrera}
                     </Typography>
                 </Grid>
-                <Grid container direction="column" xs={8}>
-                    <Grid item direction="row">
-                        <Accordion disabled={!matematicaAprobada || !epylAprobada}>
-                            <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-label="Expand"
-                            aria-controls="additional-actions1-content"
-                            id="additional-actions1-header"
-                            >
-                                <FormControlLabel
-                                    aria-label="Acknowledge"
-                                    onClick={(event) => event.stopPropagation()}
-                                    onFocus={(event) => event.stopPropagation()}
-                                    control={<Checkbox />}
-                                    label="Matematica I"
-                                />
-                                <Typography className={classes.secondaryHeading}>
-                                    Prerrequisitos: Elementos de Lógica y Programación / Matemática
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Typography color="textSecondary">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-                                    Nemo aliquid porro blanditiis sit nam eaque iste maxime 
-                                    voluptas explicabo modi quidem debitis voluptatibus ea quia 
-                                    veritatis, impedit expedita totam. Omnis?
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
-                    </Grid>
-                    <Grid item direction="row">
-                        <Accordion disabled={!epylAprobada}>
-                            <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-label="Expand"
-                            aria-controls="additional-actions1-content"
-                            id="additional-actions1-header"
-                            >
-                                <FormControlLabel
-                                    aria-label="Acknowledge"
-                                    onClick={(event) => event.stopPropagation()}
-                                    onFocus={(event) => event.stopPropagation()}
-                                    control={<Checkbox />}
-                                    label="Introduccion a la Programacion"
-                                />
-                                <Typography className={classes.secondaryHeading}>
-                                    Prerrequisitos: Elementos de programación y lógica
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Typography color="textSecondary">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-                                    Nemo aliquid porro blanditiis sit nam eaque iste maxime 
-                                    voluptas explicabo modi quidem debitis voluptatibus ea quia 
-                                    veritatis, impedit expedita totam. Omnis?
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
-                    </Grid>
-                    <Grid item direction="row">
-                        <Accordion disabled={!epylAprobada}>
-                            <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-label="Expand"
-                            aria-controls="additional-actions1-content"
-                            id="additional-actions1-header"
-                            >
-                                <FormControlLabel
-                                    aria-label="Acknowledge"
-                                    onClick={(event) => event.stopPropagation()}
-                                    onFocus={(event) => event.stopPropagation()}
-                                    control={<Checkbox />}
-                                    label="Organizacion de Computadoras"
-                                />
-                                <Typography className={classes.secondaryHeading}>
-                                    Prerrequisitos: Elementos de programación y lógica
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Typography color="textSecondary">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-                                    Nemo aliquid porro blanditiis sit nam eaque iste maxime 
-                                    voluptas explicabo modi quidem debitis voluptatibus ea quia 
-                                    veritatis, impedit expedita totam. Omnis?
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
-                    </Grid>
+                <Grid container direction="row" xs={8} justify="flex-start">
+                    {renderMaterias()}
                 </Grid>
-            </Grid> */}
+            </Grid>
     </div>
     );
 }

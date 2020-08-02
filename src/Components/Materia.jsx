@@ -31,13 +31,12 @@ export default function Materia({nombre, requisitos, resumen, materiasAprobadas,
     const [aprobada, setAprobada] = useState(false);
 
     useEffect(() => {
+        const verificarCumpleRequisitos = () => {
+            let cumpleRequisitos = requisitos.lenth === 0 || requisitos.every(materia => materiasAprobadas.includes(materia));
+            setAprobada(cumpleRequisitos);
+        }
         verificarCumpleRequisitos();
-    }, [materiasAprobadas])
-
-    function verificarCumpleRequisitos() {
-        let cumpleRequisitos = requisitos.lenth === 0 || requisitos.every(materia => materiasAprobadas.includes(materia));
-        setAprobada(cumpleRequisitos);
-    }
+    }, [materiasAprobadas, requisitos])
 
     function handleClick(event) {
         event.stopPropagation();

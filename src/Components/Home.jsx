@@ -7,7 +7,7 @@ import Anio from './Anio';
 export default function Home() {
     let data = {
         "Universidad": "Universidad Nacional de Quilmes",
-        "Carrera": "Tecnicatura universitaria en programación informática",
+        "Carrera": "Tecnicatura Universitaria en Programación Informática",
         "Materias": {
             "Primer año": [
                 {
@@ -81,9 +81,25 @@ export default function Home() {
         }
     }
 
-    const [nombreUniversidad, setNombreUniversidad] = useState(data.Universidad);
-    const [nombreCarrera, setNombreCarrera] = useState(data.Carrera);
-    const [materias, setMaterias] = useState(data.Materias);
+    const nombreUniversidad = data.Universidad;
+    const nombreCarrera = data.Carrera;
+    const materias = data.Materias;
+    const [materiasAprobadas, setMateriasAprobadas] = useState([]);
+
+    function eliminarMateria(materia) {
+        let aprobadasClone = materiasAprobadas;
+        let index = aprobadasClone.indexOf(materia);
+        if (index !== -1) {
+            aprobadasClone.splice(index, 1);
+            setMateriasAprobadas(aprobadasClone);
+        }
+    }
+
+    function agregarMateria(materia) {
+        let aprobadasClone = materiasAprobadas;
+        aprobadasClone.push(materia);
+        setMateriasAprobadas(aprobadasClone);
+    }
 
     // function getData() {
     //     axios.get('https://materiasunq.free.beeceptor.com/tpi')
@@ -94,33 +110,42 @@ export default function Home() {
     //         })
     // }
 
-    // useEffect(() => {
-    //     getData();
-    // }, [])
-
     function renderMaterias() {
         return Object.entries(materias).map((anio) => (
-            Anio(anio[0], anio[1])
+            <Anio 
+                key={anio[0]}
+                anio ={anio[0]}
+                materias = {anio[1]}
+                materiasAprobadas = {materiasAprobadas}
+                agregarMateria = {agregarMateria}
+                eliminarMateria = {eliminarMateria}
+            />
         ));
     }
 
     return (
         <div>
             <Grid container direction="row" justify="center">
-                <Grid container direction="row" xs={8} justify="flex-start">
-                    <Typography variant="h5">
-                        Establecimiento: {nombreUniversidad}
-                    </Typography>
+                <Grid container direction="row"  justify="center">
+                    <Grid item xs={8}>
+                        <Typography variant="h5">
+                            Establecimiento: {nombreUniversidad}
+                        </Typography>
+                    </Grid>
                 </Grid>
-                <Grid container direction="row" xs={8} justify="flex-start">
-                    <Typography variant="h5">
-                        Carrera: {nombreCarrera}
-                    </Typography>
+                <Grid container direction="row" justify="center">
+                    <Grid item xs={8}>
+                        <Typography variant="h5">
+                            Carrera: {nombreCarrera}
+                        </Typography>
+                    </Grid>
                 </Grid>
-                <Grid container direction="row" xs={8} justify="flex-start">
-                    {renderMaterias()}
+                <Grid container direction="row" justify="center">
+                    <Grid item xs={8}>
+                        {renderMaterias()}
+                    </Grid>
                 </Grid>
             </Grid>
-    </div>
+        </div>
     );
 }

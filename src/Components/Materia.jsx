@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Accordion from '@material-ui/core/Accordion';
@@ -7,7 +7,6 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,12 +26,36 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-export default function Materia(nombre, requisitos, resumen) {
+export default function Materia({nombre, requisitos, resumen, materiasAprobadas, agregarMateria, eliminarMateria}) {
     const classes = useStyles();
+    const [aprobada, setAprobada] = useState(false);
+
+    useEffect(() => {
+        verificarCumpleRequisitos();
+    }, [materiasAprobadas])
+
+    function verificarCumpleRequisitos() {
+        let cumpleRequisitos = requisitos.lenth === 0 || requisitos.every(materia => materiasAprobadas.includes(materia));
+        setAprobada(cumpleRequisitos);
+    }
+
+    function handleClick(event) {
+        event.stopPropagation();
+        event.target.checked ? agregarMateriaAprobada() : eliminarMateriaAprobada();
+
+    }
+
+    function eliminarMateriaAprobada() {
+        eliminarMateria(nombre);
+    }
+
+    function agregarMateriaAprobada() {
+        agregarMateria(nombre);
+    }
 
     return(
-        <Grid item direction="row">
-            <Accordion>
+        <Grid item xs={12}>
+            <Accordion disabled={!aprobada}>
                 <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-label="Expand"
@@ -41,7 +64,7 @@ export default function Materia(nombre, requisitos, resumen) {
                 >
                     <FormControlLabel
                         aria-label="Acknowledge"
-                        onClick={(event) => event.stopPropagation()}
+                        onClick={(event) => handleClick(event)}
                         onFocus={(event) => event.stopPropagation()}
                         control={<Checkbox />}
                         label={nombre}

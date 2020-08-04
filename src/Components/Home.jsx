@@ -85,6 +85,7 @@ export default function Home() {
     const nombreCarrera = data.Carrera;
     const materias = data.Materias;
     const [materiasAprobadas, setMateriasAprobadas] = useState([]);
+    const [trigger, setTrigger] = useState(false);
 
     function eliminarMateria(materia) {
         let aprobadasClone = materiasAprobadas;
@@ -92,6 +93,7 @@ export default function Home() {
         if (index !== -1) {
             aprobadasClone.splice(index, 1);
             setMateriasAprobadas(aprobadasClone);
+            setTrigger(!trigger);
         }
     }
 
@@ -99,6 +101,7 @@ export default function Home() {
         let aprobadasClone = materiasAprobadas;
         aprobadasClone.push(materia);
         setMateriasAprobadas(aprobadasClone);
+        setTrigger(!trigger);
     }
 
     // function getData() {

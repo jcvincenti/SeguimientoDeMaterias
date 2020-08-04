@@ -32,7 +32,7 @@ export default function Materia({nombre, requisitos, resumen, materiasAprobadas,
 
     useEffect(() => {
         const verificarCumpleRequisitos = () => {
-            let cumpleRequisitos = requisitos.lenth === 0 || requisitos.every(materia => materiasAprobadas.includes(materia));
+            let cumpleRequisitos = requisitos.length === 0 || requisitos.every(materia => materiasAprobadas.includes(materia));
             setAprobada(cumpleRequisitos);
         }
         verificarCumpleRequisitos();
@@ -41,7 +41,6 @@ export default function Materia({nombre, requisitos, resumen, materiasAprobadas,
     function handleClick(event) {
         event.stopPropagation();
         event.target.checked ? agregarMateriaAprobada() : eliminarMateriaAprobada();
-
     }
 
     function eliminarMateriaAprobada() {

@@ -85,16 +85,9 @@ export default function Home() {
     const nombreCarrera = data.Carrera;
     const materias = data.Materias;
     const [materiasAprobadas, setMateriasAprobadas] = useState([]);
-    const [trigger, setTrigger] = useState(false);
 
     function eliminarMateria(materia) {
-        let aprobadasClone = materiasAprobadas;
-        let index = aprobadasClone.indexOf(materia);
-        if (index !== -1) {
-            aprobadasClone.splice(index, 1);
-            setMateriasAprobadas(aprobadasClone);
-            setTrigger(!trigger);
-        }
+        setMateriasAprobadas(materiasAprobadas.filter(materiaAprobada => materiaAprobada !== materia));
     }
 
     function agregarMateria(materia) {

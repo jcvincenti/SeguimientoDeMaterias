@@ -98,10 +98,7 @@ export default function Home() {
     }
 
     function agregarMateria(materia) {
-        let aprobadasClone = materiasAprobadas;
-        aprobadasClone.push(materia);
-        setMateriasAprobadas(aprobadasClone);
-        setTrigger(!trigger);
+        setMateriasAprobadas(materiasAprobadas.concat([materia]));
     }
 
     // function getData() {

@@ -51,6 +51,22 @@ export default function Materia({nombre, requisitos, resumen, materiasAprobadas,
         agregarMateria(nombre);
     }
 
+    function getDetalleTipado(detalle) {
+        return detalle.startsWith('http') 
+            ? <a href={detalle} target="_blank" rel="noopener noreferrer">{detalle}</a>
+            : detalle
+    }
+
+    function renderResumen(resumen) {
+        return <Grid container direction="column" alignItems="flex-start">
+            {Object.entries(resumen).map((detalle) => (
+                <Typography color="textSecondary" align="left" key={detalle[0]}>
+                    <b>{detalle[0]}:</b> {getDetalleTipado(detalle[1])}
+                </Typography>
+            ))}
+        </Grid>
+    }
+
     return(
         <Grid item xs={12}>
             <Accordion disabled={!aprobada}>
@@ -72,9 +88,7 @@ export default function Materia({nombre, requisitos, resumen, materiasAprobadas,
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography color="textSecondary">
-                        {resumen}
-                    </Typography>
+                    {renderResumen(resumen)}
                 </AccordionDetails>
             </Accordion>
         </Grid>

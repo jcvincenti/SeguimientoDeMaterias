@@ -8,7 +8,7 @@ export default function Home() {
 
     const nombreUniversidad = useRef('');
     const nombreCarrera = useRef('');
-    const materias = useRef('');
+    const anios = useRef('');
     const [render, setRender] = useState(false);
     const [materiasAprobadas, setMateriasAprobadas] = useState([]);
 
@@ -23,11 +23,11 @@ export default function Home() {
     useEffect(() => {
         const getData = () => {
             if (!render) {
-                axios.get('https://materiasunq3.free.beeceptor.com/tpi')
+                axios.get('https://materiasunq2.free.beeceptor.com/tpi')
                     .then((response) => {
                         nombreUniversidad.current = response.data.Universidad;
                         nombreCarrera.current = response.data.Carrera;
-                        materias.current = response.data.Materias;
+                        anios.current = response.data.Anios;
                         setRender(true);
                     })
             }
@@ -36,11 +36,12 @@ export default function Home() {
     }, [render])
 
     function renderMaterias() {
-        return Object.entries(materias.current).map((anio) => (
+        //TODO: Eliminar el object entries
+        return Object.entries(anios.current).map((anio) => (
             <Anio 
-                key={anio[0]}
-                anio ={anio[0]}
-                materias = {anio[1]}
+                key={anio[1].Anio}
+                anio ={anio[1].Anio}
+                materias = {anio[1].Materias}
                 materiasAprobadas = {materiasAprobadas}
                 agregarMateria = {agregarMateria}
                 eliminarMateria = {eliminarMateria}

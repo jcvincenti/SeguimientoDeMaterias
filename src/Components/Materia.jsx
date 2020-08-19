@@ -69,7 +69,7 @@ export default function Materia({nombre, requisitos, resumen, materiasAprobadas,
 
     return(
         <Grid item xs={12}>
-            <Accordion disabled={!aprobada}>
+            <Accordion disabled={!aprobada} square="true">
                 <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-label="Expand"

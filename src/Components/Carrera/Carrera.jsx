@@ -1,8 +1,9 @@
 import React, {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
-import { Grid, Divider } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Anio from './Anio';
+import NavigationBar from '../NavigationBar';
 
 export default function Carrera() {
 
@@ -49,29 +50,35 @@ export default function Carrera() {
         ));
     }
 
-    return (
-        <div>
-            <Grid container direction="row" justify="center">
-                <Grid container direction="row"  justify="center">
-                    <Grid item xs={8}>
-                        <Typography variant="h5">
-                            Establecimiento: {nombreUniversidad.current}
-                        </Typography>
-                    </Grid>
-                </Grid>
-                <Grid container direction="row" justify="center">
-                    <Grid item xs={8}>
-                        <Typography variant="h5">
-                            Carrera: {nombreCarrera.current}
-                        </Typography>
-                    </Grid>
-                </Grid>
-                <Grid container direction="row" justify="center">
-                    <Grid item xs={8}>
-                        {renderAnios()}
-                    </Grid>
+    const content = () => {
+        return <Grid container direction="row" justify="center">
+            <Grid container direction="row"  justify="center">
+                <Grid item xs={8}>
+                    <Typography variant="h5">
+                        Establecimiento: {nombreUniversidad.current}
+                    </Typography>
                 </Grid>
             </Grid>
+            <Grid container direction="row" justify="center">
+                <Grid item xs={8}>
+                    <Typography variant="h5">
+                        Carrera: {nombreCarrera.current}
+                    </Typography>
+                </Grid>
+            </Grid>
+            <Grid container direction="row" justify="center">
+                <Grid item xs={8}>
+                    {renderAnios()}
+                </Grid>
+            </Grid>
+        </Grid>
+    } 
+
+    return (
+        <div>
+            <NavigationBar
+                content={content()}
+            />
         </div>
     );
 }

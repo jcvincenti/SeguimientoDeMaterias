@@ -66,8 +66,6 @@ export default function Home() {
     ];
     const unqCarreras = [
         'Tecnicatura en Programación Informática',
-        'Licenciatura en Informática',
-        'Ingeniería en Automatización y Control Industrial',
         'Bioinformática'
     ]
 
@@ -80,7 +78,7 @@ export default function Home() {
                 }}
                 disabled={isDisabled}
                 options={searchBoxOptions}
-                getOptionDisabled={(option) => option === 'Universidad de Buenos Aires'}
+                getOptionDisabled={(option) => option === 'Universidad de Buenos Aires' || option === 'Bioinformática'}
                 style={{ width: 300 , marginTop: 10}}
                 renderInput={(params) => (
                     <TextField {...params} label={searchBoxLabel} variant="outlined" />

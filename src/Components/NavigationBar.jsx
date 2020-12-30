@@ -77,12 +77,11 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
   },
   content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
+    flexGrow: 1
   },
 }));
 
-export default function NavigationBar({content}) {
+export default function NavigationBar({content, pageTitle}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -117,9 +116,7 @@ export default function NavigationBar({content}) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Seguimiento de materias
-          </Typography>
+          {pageTitle}
         </Toolbar>
       </AppBar>
       <Drawer

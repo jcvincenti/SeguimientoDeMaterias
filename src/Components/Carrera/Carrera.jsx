@@ -27,7 +27,7 @@ export default function Carrera() {
         console.log(location.state.codigoCarrera);
         const getData = async () => {
             if (!render) {
-                let response = await axios.get(`http://localhost:3001/api/carreras/${location.state.codigoCarrera}`)
+                let response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/carreras/${location.state.codigoCarrera}`)
                 if (response.data) {
                     nombreUniversidad.current = response.data.universidad;
                     nombreCarrera.current = response.data.carrera;

@@ -49,7 +49,7 @@ export default function Home() {
     useEffect(() => {
         const getData = () => {
             if (!render) {
-                axios.get('http://localhost:3001/api/universidades')
+                axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/universidades`)
                 .then(response => {
                     setUniversidades(response.data);
                     setRender(true);

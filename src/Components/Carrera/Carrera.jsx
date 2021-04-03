@@ -1,15 +1,17 @@
 import React, {useState, useEffect, useRef} from 'react';
+import {useLocation} from 'react-router-dom';
 import axios from 'axios';
 import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Anio from './Anio';
 import NavigationBar from '../NavigationBar';
+import Alert from '@material-ui/lab/Alert';
 
 export default function Carrera() {
-
-    const nombreUniversidad = useRef('');
-    const nombreCarrera = useRef('');
-    const anios = useRef('');
+    const location = useLocation();
+    const nombreUniversidad = useRef(null);
+    const nombreCarrera = useRef(null);
+    const anios = useRef(null);
     const [render, setRender] = useState(false);
     const [materiasAprobadas, setMateriasAprobadas] = useState([]);
 
@@ -22,19 +24,20 @@ export default function Carrera() {
     }
 
     useEffect(() => {
-        const getData = () => {
+        console.log(location.state.codigoCarrera);
+        const getData = async () => {
             if (!render) {
-                axios.get('http://localhost:3001/api/carreras/unq-tpi')
-                    .then((response) => {
-                        nombreUniversidad.current = response.data.universidad;
-                        nombreCarrera.current = response.data.carrera;
-                        anios.current = response.data.anios;
-                        setRender(true);
-                    })
+                let response = await axios.get(`http://localhost:3001/api/carreras/${location.state.codigoCarrera}`)
+                if (response.data) {
+                    nombreUniversidad.current = response.data.universidad;
+                    nombreCarrera.current = response.data.carrera;
+                    anios.current = response.data.anios;
+                    setRender(true);
+                }
             }
         }
         getData();
-    }, [render])
+    }, [render, location])
 
     function renderAnios() {
         //TODO: Eliminar el object entries
@@ -50,8 +53,8 @@ export default function Carrera() {
         ));
     }
 
-    const content = () => {
-        return <Grid container direction="row" justify="center">
+    const renderContent = () => {
+        return <>
             <Grid container direction="row"  justify="center">
                 <Grid item xs={8}>
                     <Typography variant="h5">
@@ -71,6 +74,16 @@ export default function Carrera() {
                     {renderAnios()}
                 </Grid>
             </Grid>
+        </>
+    }
+
+    const renderEmtpy = () => {
+        return <Alert severity="info">Lo siento! No disponemos de la lista de materias aún</Alert>
+    }
+
+    const content = () => {
+        return <Grid container direction="row" justify="center">
+            {nombreCarrera.current ? renderContent() : renderEmtpy()}
         </Grid>
     }
 

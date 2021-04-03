@@ -5,18 +5,18 @@ import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import SearchIcon from '@material-ui/icons/Search';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+import {Link} from "react-router-dom";
+import MenuList from '@material-ui/core/MenuList';
+import MenuItem from "@material-ui/core/MenuItem";
 
 const drawerWidth = 240;
 
@@ -77,12 +77,11 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
   },
   content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
+    flexGrow: 1
   },
 }));
 
-export default function NavigationBar({content}) {
+export default function NavigationBar({content, pageTitle}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -117,9 +116,7 @@ export default function NavigationBar({content}) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Seguimiento de materias
-          </Typography>
+          {pageTitle}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -141,16 +138,20 @@ export default function NavigationBar({content}) {
           </IconButton>
         </div>
         <Divider />
-        <List>
-          <ListItem>
+        <MenuList>
+          <MenuItem component={Link} to={{
+            pathname: '/'
+          }}>
             <ListItemIcon><SearchIcon/></ListItemIcon>
             <ListItemText primary="Buscar carrera" />
-          </ListItem>
-          <ListItem>
+          </MenuItem>
+          <MenuItem component={Link} to={{
+            pathname: '/carrera'
+          }}>
             <ListItemIcon><PlaylistAddCheckIcon/></ListItemIcon>
             <ListItemText primary="Seguimiento" />
-          </ListItem>
-        </List>
+          </MenuItem>
+        </MenuList>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />

@@ -1,9 +1,8 @@
-import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import SchoolIcon from '@material-ui/icons/School';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -12,6 +11,10 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import NavigationBar from './NavigationBar';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -26,59 +29,112 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home() {
-  const classes = useStyles();
+    const classes = useStyles();
+    const [universidad, setUniversidad] = useState(null);
+    const [carrera, setCarrera] = useState(null);
+    const [isCarreraDisabled, setIsCarreraDisabled] = useState(true);
+    const [isSearchButtonDisabled, setIsSearchButtonDisabled] = useState(false);
+    const history = useHistory();
 
-  const pasos = ["Selecciona tu universidad", "Selecciona tu carrera", "Comenza a trackear tu progreso !"]
-
-  return (
-    <Grid container>
-        <CssBaseline />
-        <AppBar position="relative" style={{background: 'linear-gradient(45deg, rgba(119,0,0,1) 0%, rgb(185,28,0) 100%)'}}>
-            <Toolbar>
+    const pasos = [
+        "Selecciona tu universidad",
+        "Selecciona tu carrera",
+        "Comenza a trackear tu progreso !"
+        ];
+    
+    useEffect(() => {
+        setIsCarreraDisabled(universidad === null);
+        setIsSearchButtonDisabled(carrera === null);
+    }, [universidad, carrera])
+    
+    const pageTitle = () => {
+        return <>
             <SchoolIcon className={classes.icon} />
             <Typography variant="h6" color="inherit" noWrap>
                 SSU | Sistema de Seguimiento Universitario
             </Typography>
-            </Toolbar>
-        </AppBar>
-        <Container className={classes.heroContent}>
-            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom style={{margin: 0}}>
-                Bienvenido a SSU
-            </Typography>
-            <Typography variant="h5" align="center" color="textSecondary" paragraph style={{margin: 0}}>
-                Sistema de Seguimiento Universitario
-            </Typography>
-            <Grid item style={{width: "fit-content", margin: "auto"}}>
-                <Stepper orientation="vertical">
-                    {pasos.map(step => {
-                        return <Step active={true} style={{marginBottom: 8}}>
-                            <StepLabel>{step}</StepLabel>
-                        </Step>
-                    })}
-                </Stepper>
-            </Grid>
-        </Container>
-        <Grid container justify="center" alignItems="center">
-            <Grid item>
-                <Card>
-                    <CardContent>
-                        <Typography color="textSecondary" gutterBottom>
-                            Word of the Day
-                        </Typography>
-                        <Typography variant="h5" component="h2">
-                            ASD
-                        </Typography>
-                        <Typography color="textSecondary">
-                            adjective
-                        </Typography>
-                        <Typography variant="body2" component="p">
-                            well meaning and kindly.
-                            <br />
-                        </Typography>
-                    </CardContent>
-                </Card>
+        </>
+    }
+
+    function goToCarrera() {
+        history.push('/carrera');
+    }
+
+    const universidades = [
+        'Universidad Nacional de Quilmes',
+        'Universidad de Buenos Aires'
+    ];
+    const unqCarreras = [
+        'Tecnicatura en Programación Informática',
+        'Bioinformática'
+    ]
+
+    const searchBox = (searchBoxOptions, searchBoxLabel, setCallback, isDisabled = false) => {
+        return <>
+            <Autocomplete
+                id="disabled-options-demo"
+                onChange={(event, newValue) => {
+                    setCallback(newValue);
+                }}
+                disabled={isDisabled}
+                options={searchBoxOptions}
+                getOptionDisabled={(option) => option === 'Universidad de Buenos Aires' || option === 'Bioinformática'}
+                style={{ width: 300 , marginTop: 10}}
+                renderInput={(params) => (
+                    <TextField {...params} label={searchBoxLabel} variant="outlined" />
+                )}
+            />
+        </>
+    }
+
+    const content = () => {
+        return <Grid container>
+            <CssBaseline />
+            <Container className={classes.heroContent}>
+                <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom style={{margin: 0}}>
+                    Bienvenido a SSU
+                </Typography>
+                <Typography variant="h5" align="center" color="textSecondary" paragraph style={{margin: 0}}>
+                    Sistema de Seguimiento Universitario
+                </Typography>
+                <Grid item style={{width: "fit-content", margin: "auto"}}>
+                    <Stepper orientation="vertical">
+                        {pasos.map(step => {
+                            return <Step active={true} style={{marginBottom: 8}}>
+                                <StepLabel>{step}</StepLabel>
+                            </Step>
+                        })}
+                    </Stepper>
+                </Grid>
+            </Container>
+            <Grid container justify="center" alignItems="center">
+                <Grid item style={{marginTop: 15, marginBottom: 15}}>
+                    <Card>
+                        <CardContent>
+                            {searchBox(universidades, 'Seleccioná tu universidad', setUniversidad)}
+                            {searchBox(unqCarreras, 'Seleccioná tu carrera', setCarrera, isCarreraDisabled)}
+                            <Button 
+                                variant="contained" 
+                                color="primary" 
+                                style={{marginTop: 10}} 
+                                disabled={isSearchButtonDisabled}
+                                onClick={goToCarrera}
+                            >
+                                Buscar
+                            </Button>
+                        </CardContent>
+                    </Card>
+                </Grid>
             </Grid>
         </Grid>
-    </Grid>
-  );
+    };
+
+    return (
+        <div>
+            <NavigationBar
+                content={content()}
+                pageTitle={pageTitle()}
+            />
+        </div>
+    );
 }

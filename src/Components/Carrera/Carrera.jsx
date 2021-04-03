@@ -72,12 +72,21 @@ export default function Carrera() {
                 </Grid>
             </Grid>
         </Grid>
-    } 
+    }
+
+    const pageTitle = () => {
+        return <>
+            <Typography variant="h6" noWrap>
+                Seguimiento de materias
+            </Typography>
+        </>
+    }
 
     return (
         <div>
             <NavigationBar
                 content={content()}
+                pageTitle={pageTitle()}
             />
         </div>
     );

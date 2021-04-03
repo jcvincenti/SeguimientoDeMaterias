@@ -24,11 +24,11 @@ export default function Carrera() {
     useEffect(() => {
         const getData = () => {
             if (!render) {
-                axios.get('https://materiasunq2.free.beeceptor.com/tpi')
+                axios.get('http://localhost:3001/api/carreras/unq-tpi')
                     .then((response) => {
-                        nombreUniversidad.current = response.data.Universidad;
-                        nombreCarrera.current = response.data.Carrera;
-                        anios.current = response.data.Anios;
+                        nombreUniversidad.current = response.data.universidad;
+                        nombreCarrera.current = response.data.carrera;
+                        anios.current = response.data.anios;
                         setRender(true);
                     })
             }
@@ -40,9 +40,9 @@ export default function Carrera() {
         //TODO: Eliminar el object entries
         return Object.entries(anios.current).map((anio) => (
             <Anio 
-                key={anio[1].Anio}
-                anio ={anio[1].Anio}
-                materias = {anio[1].Materias}
+                key={anio[1].anio}
+                anio ={anio[1].anio}
+                materias = {anio[1].materias}
                 materiasAprobadas = {materiasAprobadas}
                 agregarMateria = {agregarMateria}
                 eliminarMateria = {eliminarMateria}

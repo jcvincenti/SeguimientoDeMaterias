@@ -18,10 +18,10 @@ export default function Anio({anio, materias, materiasAprobadas, agregarMateria,
     function renderMaterias(materias) {
         return materias.map((materia) => (
             <Materia 
-                key={materia.Nombre}
-                nombre = {materia.Nombre} 
-                requisitos = {materia.Prerrequisitos} 
-                resumen = {materia.Resumen} 
+                key={materia.nombre}
+                nombre = {materia.nombre} 
+                requisitos = {materia.prerrequisitos} 
+                resumen = {materia.resumen} 
                 materiasAprobadas = {materiasAprobadas} 
                 agregarMateria = {handleAgregarMateria} 
                 eliminarMateria = {handleEliminarMateria}
